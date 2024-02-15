@@ -41,6 +41,15 @@ namespace Proccesss
             set {   _blacklstproc = value; OnPropertyChanged(); }
         }
 
+
+        private string _selectedtItemblck;
+
+        public string SelectedItemblck
+        {
+            get { return _selectedtItemblck; }
+            set { _selectedtItemblck = value; OnPropertyChanged(); }
+        }
+
         private ObservableCollection<Process> _proc;
 
         public ObservableCollection<Process> Proc
@@ -196,9 +205,45 @@ namespace Proccesss
             }
         }
 
+        private void ClearFile()
+        {
+            
+            File.WriteAllText("../../../blacklist.txt", string.Empty);
+        }
+
         private void AddClick(object sender, RoutedEventArgs e)
         {
             SaveDataToFile();
+        }
+
+        private void DeleteClick(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(SelectedItemblck) )
+            {
+                try
+                {
+                    BlackList.Remove(SelectedItemblck);
+                    ClearFile();
+                    foreach (var item in BlackList)
+                    { 
+                        using (StreamWriter sw = new StreamWriter("../../../blacklist.txt", true))
+                        {
+                            sw.WriteLine(item);
+                          
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                    MessageBox.Show(ex.Message);
+                }
+                
+
+           
+
+            }
+
         }
     }
 }

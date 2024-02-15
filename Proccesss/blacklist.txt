@@ -1,6 +1,2 @@
-paint
 notepad
 chrome
-discord
-Discord
-
